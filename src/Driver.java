@@ -12,12 +12,21 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Driver {
+	// number of gen, population size, mutation rate, number of variables in function, need new population, old population, individual that is best, average fitness, bestfitenss
+	public static final int MAX_GENERATION = 100;
+	public static final int POPULATION_SIZE = 200;
+	
+	
 
 	public static void main(String[] args)
 	{
 		String fileName = new String();
 		Scanner reader = new Scanner(System.in);
 		String puzzle = new String();
+		// set generation to 0 
+		// loop through generations to print generation, calc fitness, best individual, fill population, mutate population
+		// take young population and move to new population
+		// increase generation size
 		
 		System.out.println("This program is used to solve a mathematical equation with a generic algorithm.");
 

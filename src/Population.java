@@ -13,7 +13,7 @@ public class Population {
 			}
 		}
 	}
-	
+	// method to check if there is room in youngPopulation and adds to it using crossover
 	private void addIndividual(int i, Individual individual) {
 		population[i] = individual;
 		

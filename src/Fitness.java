@@ -10,10 +10,10 @@ public class Fitness {
 	public int calculateFitness(Individual individual){
 			// TO DO LATER
 			for( Individual i : population){
-				int decimal = i.calculateDecmial(individual.getBit());
-			// Looks at population and grabs decimal values then compares
+				int decimal = i.calculateDecmial(individual.getBinaryString());
+			// Looks at population and evaluation values and based on which is higher
 			}
-		return null;
+		return 1;
 	}
 
 }
