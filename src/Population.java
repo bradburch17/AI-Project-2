@@ -31,8 +31,11 @@ public class Population {
 	public Individual getIndividual(int i){
 		return population[i];
 	}
+	
+	
 	public int size(){
 		return population.length;
 	}
+
 	
 }

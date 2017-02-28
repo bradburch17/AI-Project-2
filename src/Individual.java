@@ -2,11 +2,13 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Individual {
-	public static int[][] coefficient;
-	
 	private String binaryString;
 	private int numVariables;
 	private ArrayList<Integer> variables;
+	private int fitness;
+	private double reproductionChance;
+	private int evaluation;
+	
 
 	public Individual(int number)
 	{
@@ -15,7 +17,6 @@ public class Individual {
 	
 	public Individual(String binaryString, int[][] coefficient, ArrayList<Integer> variables){
 		this.binaryString = binaryString;
-		this.coefficient = coefficient;
 		this.variables = variables;
 	}
 	
@@ -54,20 +55,13 @@ public class Individual {
 		return binaryString.length();
 	}
 	
-	public int[][] getCoefficient() {
-		return coefficient;
-	}
-	
-	public void setCoefficient(int[][] coefficient) {
-		this.coefficient = coefficient;
-	}
-	
 	public ArrayList<Integer> getVariables() {
 		return variables;
 	}
 	
 	public void setVariables(ArrayList<Integer> variables) {
-		// This get set to x1, x2, x3 --> calculated from coefficent
+		// This get set to x1, x2, x3 --> calculated from coefficient
+		
 	}
 	
 	public int[] calculateDecmial(String currentBinaryString){
@@ -75,5 +69,15 @@ public class Individual {
 		int decimal = Integer.parseInt(currentBinaryString, 2);
 		return ;
 	}
+
+	public int getFitness() {
+		return fitness;
+	}
+
+	public void setFitness(int fitness) {
+		this.fitness = fitness;
+	}
+
+	
 
 }
