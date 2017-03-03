@@ -3,7 +3,8 @@ public class Population {
 
 	private Individual[] population;
 
-	public Population(int size, boolean initialize){
+	public Population(int size, boolean initialize)
+	{
 		population = new Individual[size];
 		if(initialize){
 			for( int i = 0; i < size(); i++){
@@ -13,29 +14,32 @@ public class Population {
 			}
 		}
 	}
+	
 	// method to check if there is room in youngPopulation and adds to it using crossover
-	private void addIndividual(int i, Individual individual) {
+	private void addIndividual(int i, Individual individual) 
+	{
 		population[i] = individual;
 		
 	}
 
-	public Individual[] getPopulation() {
+	public Individual[] getPopulation()
+	{
 		return population;
-	
 	}
 
-	public void setPopulation(Individual[] population) {
+	public void setPopulation(Individual[] population) 
+	{
 		this.population = population;
 	}
 	
-	public Individual getIndividual(int i){
+	public Individual getIndividual(int i)
+	{
 		return population[i];
 	}
 	
 	
-	public int size(){
+	public int size()
+	{
 		return population.length;
 	}
-
-	
 }

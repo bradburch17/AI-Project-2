@@ -9,75 +9,83 @@ public class Individual {
 	private double reproductionChance;
 	private int evaluation;
 	
+	public Individual(){ }
 
 	public Individual(int number)
 	{
 		
 	}
 	
-	public Individual(String binaryString, int[][] coefficient, ArrayList<Integer> variables){
+	public Individual(String binaryString, int[][] coefficient, ArrayList<Integer> variables)
+	{
 		this.binaryString = binaryString;
 		this.variables = variables;
 	}
 	
-	public Individual(){
-		
-	}
-	
-	public int evaluate( int[][] file, String binaryString){
+	public int evaluate(int[][] file, String binaryString)
+	{
 		int solution = 0;
 		// takes the file and forms the algorithm; uses WXYZ from binary string in order to solve this algorithm
 		return solution;
 	}
 	
 	
-	public String getBinaryString() {
+	public String getBinaryString() 
+	{
 		return binaryString;
 	}
 	
-	public void setBinaryString(String binaryString) {
+	public void setBinaryString(String binaryString) 
+	{
 		this.binaryString = binaryString;
 
 	}
 	
-	public void calculateIndividual() {
-        for (int i = 0; i < binaryStringSize(); i++) {
+	public void calculateIndividual() 
+	{
+        for (int i = 0; i < binaryStringSize(); i++) 
+        {
             int random = ThreadLocalRandom.current().nextInt(0,1);
             variables.set(i, random);
         }
     }
 	
-	public void printIndividual(){
+	public void printIndividual()
+	{
 		System.out.println(binaryString);
 	}
 	
-	public int binaryStringSize(){
+	public int binaryStringSize()
+	{
 		return binaryString.length();
 	}
 	
-	public ArrayList<Integer> getVariables() {
+	public ArrayList<Integer> getVariables() 
+	{
 		return variables;
 	}
 	
-	public void setVariables(ArrayList<Integer> variables) {
+	public void setVariables(ArrayList<Integer> variables) 
+	{
 		// This get set to x1, x2, x3 --> calculated from coefficient
 		
 	}
 	
-	public int[] calculateDecmial(String currentBinaryString){
+	public int[] calculateDecmial(String currentBinaryString)
+	{
 		// looks at parts of the binaryString and adds WXYZ values in decimal to an list in order to use them in evaluate
+		int[] array = new int[0]; //JUST TO GET RID OF ERRORS. DELETE. 
 		int decimal = Integer.parseInt(currentBinaryString, 2);
-		return ;
+		return array;
 	}
 
-	public int getFitness() {
+	public int getFitness() 
+	{
 		return fitness;
 	}
 
-	public void setFitness(int fitness) {
+	public void setFitness(int fitness) 
+	{
 		this.fitness = fitness;
 	}
-
-	
-
 }
