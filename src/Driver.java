@@ -29,6 +29,13 @@ public class Driver {
 	private static int variables;
 	private static int[][] coefficients;
 
+	/**
+	 * We need to read in the file correctly. That should be our first order of business. 
+	 * We need to ensure that we are creating individuals and then worry about the mutating and crossover whatever 
+	 * 
+	 * So, the goal is to get the file to read in correctly and then run it through without selection, crossover, mutation, etc. 
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		String fileName = new String();
@@ -54,10 +61,8 @@ public class Driver {
 			
 			scanner.close();
 
-			
 			generateGrid(numbers);
 			printGrid();
-
 			
 			while(generation <= MAX_GENERATION)
 			{
@@ -71,7 +76,6 @@ public class Driver {
 				// select the individuals to reproduce and create new generation
 				// end with mutation
 				//create new population
-				// generation++
 				
 				System.out.println("The current generation is: " + generation);
 //				for(Individual i : oldPopulation)
@@ -86,9 +90,9 @@ public class Driver {
 				generation ++;
 				
 			}
-			// set generation to 0 
+			// set generation to 0 -- DONE 
 			// loop through generations to print generation, calc fitness, best individual, fill population, mutate population
-			// increase generation size
+			// increase generation size -- DONE
 		}
 		catch(FileNotFoundException e)
 		{
@@ -150,6 +154,19 @@ public class Driver {
 		}
 		
 		return coefficients;
+	}
+	
+	//This is nothing. I don't know what I was doing. 
+	public static void createStrings()
+	{
+		ArrayList<Integer> total = new ArrayList<Integer>();
+		for(int i = 0; i < variables; i++)
+		{
+			for(int j = 0; j < variables; j++)
+			{
+				total.add(coefficients[i][j]);
+			}
+		}
 	}
 	
 	//Prints the grid 
