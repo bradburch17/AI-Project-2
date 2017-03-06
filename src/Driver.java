@@ -44,16 +44,16 @@ public class Driver {
 	private static Individual findFittest(ArrayList<Individual> currentPopulation) 
 	{
 		int fit = 0;
-		Individual currentIndividual = new Individual();
+		Individual fittestIndividual = new Individual();
 		for(Individual i : currentPopulation)
 		{
 			if(i.getFitness() > fit)
 			{
 				fit= i.getFitness();
-				currentIndividual = i;
+				fittestIndividual = i;
 			}
 		}
-		return currentIndividual;
+		return fittestIndividual;
 	}
 
 	//Generates a new population 
@@ -123,6 +123,7 @@ public class Driver {
 			
 			Population population = new Population(POPULATION_SIZE, true);
 			population.printPopulation();
+			System.out.println("Average Population: " + population.averagePopulation());
 			
 			while(generation <= MAX_GENERATION)
 			{
@@ -137,7 +138,9 @@ public class Driver {
 				// end with mutation
 				//create new population
 				
-				System.out.println("The current generation is: " + generation);
+//				System.out.println("The current generation is: " + generation); IMPORTANT
+				
+				
 //				for(Individual i : oldPopulation)
 //				{
 //					i.setFitness(calculateFitness(i));

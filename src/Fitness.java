@@ -1,3 +1,10 @@
+/**
+ * Fitness may or may not be used.
+ * 
+ * @author Brad Burch & Katherine Martin 
+ * Created 2-24-2017
+ */
+
 import java.util.ArrayList;
 
 public class Fitness {

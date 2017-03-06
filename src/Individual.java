@@ -1,3 +1,12 @@
+/**
+ * Individual class contains the individual information that will be stored in Population 
+ * Individual contains a fitness score and an ArrayList of initially randomly generated
+ * binary digits that are converted into decimal.
+ * 
+ * @author Brad Burch & Katherine Martin 
+ * Created 2-24-2017
+ */
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -70,15 +79,32 @@ public class Individual {
 					   Integer.toString(binary.get(i + 1)) + 
 					   Integer.toString(binary.get(i + 2)) + 
 					   Integer.toString(binary.get(i + 3));
-			System.out.println("Calc Dec: " + s);
 			
 			//Converts the binary string to a decimal number
 			int d = Integer.parseInt(s, 2);
 			total += d;
-			System.out.println("Calc Dec Int: " + d);
 		}
-		System.out.println("Total: " + total); 
 
+	}
+	
+	public int getIndividualDecimal()
+	{
+		ArrayList<Integer> thenewone = new ArrayList<Integer>();
+		Driver driver = new Driver();
+		int total = 0; //The individual's added decimal values
+		for(int i = 0; i < driver.getVariables(); i++)
+		{
+			//String for each x value of each individual 
+			String s = Integer.toString(binary.get(i)) + 
+					   Integer.toString(binary.get(i + 1)) + 
+					   Integer.toString(binary.get(i + 2)) + 
+					   Integer.toString(binary.get(i + 3));
+			
+			//Converts the binary string to a decimal number
+			int d = Integer.parseInt(s, 2);
+			total += d;
+		}
+		return total;
 	}
 
 	public void printIndividual()

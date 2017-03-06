@@ -1,3 +1,12 @@
+/**
+ * Population class handles the population used for the genetic algorithm. 
+ * It contains an ArrayList of individuals from the MAX_POPULATION variable in Driver
+ * and manipulates the given population 
+ * 
+ * @author Brad Burch & Katherine Martin 
+ * Created 2-24-2017
+ */
+
 import java.util.ArrayList;
 
 public class Population {
@@ -30,10 +39,24 @@ public class Population {
 	// method to check if there is room in youngPopulation and adds to it using crossover
 	private void addIndividual(int i, Individual individual) 
 	{
-//		population[i] = individual;
-		
+		population.add(i, individual);
 	}
 	
+	//Takes the current population and returns the average decimal to be used for fitness calculation 
+	public double averagePopulation()
+	{
+		double average, total = 0;
+		for(int i = 0; i < population.size(); i++)
+		{
+			total += population.get(i).getIndividualDecimal();
+		}
+		System.out.println("Total: " + total);
+		average = total / population.size();
+		
+		return average;
+	}
+	
+	//Prints all the individuals in the population
 	public void printPopulation()
 	{
 		for(int i = 0; i < population.size(); i++)
