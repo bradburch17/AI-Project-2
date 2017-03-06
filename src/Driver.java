@@ -39,14 +39,60 @@ public class Driver {
 	{
 		return coefficients;
 	}
+
+	//Finds the fittest individual from the current population and return best individual 
+	private static Individual findFittest(ArrayList<Individual> currentPopulation) 
+	{
+		int fit = 0;
+		Individual currentIndividual = new Individual();
+		for(Individual i : currentPopulation)
+		{
+			if(i.getFitness() > fit)
+			{
+				fit= i.getFitness();
+				currentIndividual = i;
+			}
+		}
+		return currentIndividual;
+	}
+
+	//Generates a new population 
+	private static ArrayList<Individual> generateNewPopulation(ArrayList<Individual> oldPopulation)
+	{
+		ArrayList<Individual> newPopulation = new ArrayList<Individual>();
+		
+		// Look at fitness divide by average 
+		// That number is percentage chance of being picked
+		//
+		return newPopulation;
+		
+	}
 	
-	/**
-	 * We need to read in the file correctly. That should be our first order of business. 
-	 * We need to ensure that we are creating individuals and then worry about the mutating and crossover whatever 
-	 * 
-	 * So, the goal is to get the file to read in correctly and then run it through without selection, crossover, mutation, etc. 
-	 * @param args
-	 */
+	//Calculates the fitness according to SOME ALGORITHM*******CHANGE
+	private static int calculateFitness(Individual individual) 
+	{
+		// TODO Auto-generated method stub
+		return 1;
+		
+	}
+	
+	//Generates the grid used for the algorithm 
+	private static int[][] generateGrid(ArrayList<Integer> numbers)
+	{		
+		coefficients = new int[variables][variables];
+		for(int i = 0; i < variables; i++)
+		{
+			for(int j = 0; j < variables; j++)
+			{
+				coefficients[i][j] = numbers.get(0);
+				numbers.remove(0);
+			}
+		}
+		
+		return coefficients;
+	}
+	
+	//Main method 
 	public static void main(String[] args)
 	{
 		String fileName = new String();
@@ -116,58 +162,6 @@ public class Driver {
 		{
 			System.out.println("Could not read from " + fileName + ".");
 		}
-	}
-
-	//Finds the fittest individual from the current population and return best individual 
-	private static Individual findFittest(ArrayList<Individual> currentPopulation) 
-	{
-		int fit = 0;
-		Individual currentIndividual = new Individual();
-		for(Individual i : currentPopulation)
-		{
-			if(i.getFitness() > fit)
-			{
-				fit= i.getFitness();
-				currentIndividual = i;
-			}
-		}
-		return currentIndividual;
-	}
-
-	//Generates a new population 
-	private static ArrayList<Individual> generateNewPopulation(ArrayList<Individual> oldPopulation)
-	{
-		ArrayList<Individual> newPopulation = new ArrayList<Individual>();
-		
-		// Look at fitness divide by average 
-		// That number is percentage chance of being picked
-		//
-		return newPopulation;
-		
-	}
-	
-	//Calculates the fitness according to SOME ALGORITHM*******CHANGE
-	private static int calculateFitness(Individual individual) 
-	{
-		// TODO Auto-generated method stub
-		return 1;
-		
-	}
-	
-	//Generates the grid used for the algorithm 
-	private static int[][] generateGrid(ArrayList<Integer> numbers)
-	{		
-		coefficients = new int[variables][variables];
-		for(int i = 0; i < variables; i++)
-		{
-			for(int j = 0; j < variables; j++)
-			{
-				coefficients[i][j] = numbers.get(0);
-				numbers.remove(0);
-			}
-		}
-		
-		return coefficients;
 	}
 	
 	//Prints the grid 

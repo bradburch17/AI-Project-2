@@ -1,8 +1,8 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Individual {
-	private String binaryString;
 	private int numVariables;
 	private ArrayList<Integer> binary = new ArrayList<Integer>();
 	private int fitness;
@@ -11,15 +11,16 @@ public class Individual {
 	
 	public Individual(){ }
 
-	public Individual(int number)
-	{
-		
-	}
+	public Individual(int number){ }
 	
-	public Individual(String binaryString, int[][] coefficient, ArrayList<Integer> variables)
+	public int getFitness() 
 	{
-		this.binaryString = binaryString;
-		this.binary = variables;
+		return fitness;
+	}
+
+	public void setFitness(int fitness) 
+	{
+		this.fitness = fitness;
 	}
 	
 	public int evaluate(int[][] file, String binaryString)
@@ -29,47 +30,20 @@ public class Individual {
 		return solution;
 	}
 	
-	
-	public String getBinaryString() 
-	{
-		return binaryString;
-	}
-	
-	public void setBinaryString(String binaryString) 
-	{
-		this.binaryString = binaryString;
-
-	}
-	
 	public ArrayList<Integer> createIndividual() 
 	{
 		Driver driver = new Driver();
+		Random r = new Random();
         for (int i = 0; i < driver.getVariables(); i++) 
         {
-        	//Creates a binary string. 
-            int random1 = ThreadLocalRandom.current().nextInt(0,1);
-            int random2 = ThreadLocalRandom.current().nextInt(0,1);
-            int random3 = ThreadLocalRandom.current().nextInt(0,1);
-            int random4 = ThreadLocalRandom.current().nextInt(0,1);
-
-            binary.add(random1);
-            binary.add(random2);
-            binary.add(random3);
-            binary.add(random4);
+            binary.add(r.nextInt(2));
+            binary.add(r.nextInt(2));
+            binary.add(r.nextInt(2));
+            binary.add(r.nextInt(2));
         }
-        
+        convertBinarytoDecimal();
         return binary;
     }
-	
-	public void printIndividual()
-	{
-		System.out.println(binaryString);
-	}
-	
-	public int binaryStringSize()
-	{
-		return binaryString.length();
-	}
 	
 	public ArrayList<Integer> getVariables() 
 	{
@@ -82,21 +56,37 @@ public class Individual {
 		
 	}
 	
-	public int[] calculateDecmial(String currentBinaryString)
+	//Converts the x values of each individual to a decimal number
+	public void convertBinarytoDecimal()
 	{
 		// looks at parts of the binaryString and adds WXYZ values in decimal to an list in order to use them in evaluate
-		int[] array = new int[0]; //JUST TO GET RID OF ERRORS. DELETE. 
-		int decimal = Integer.parseInt(currentBinaryString, 2);
-		return array;
+		ArrayList<Integer> thenewone = new ArrayList<Integer>();
+		Driver driver = new Driver();
+		int total = 0; //The individual's added decimal values
+		for(int i = 0; i < driver.getVariables(); i++)
+		{
+			//String for each x value of each individual 
+			String s = Integer.toString(binary.get(i)) + 
+					   Integer.toString(binary.get(i + 1)) + 
+					   Integer.toString(binary.get(i + 2)) + 
+					   Integer.toString(binary.get(i + 3));
+			System.out.println("Calc Dec: " + s);
+			
+			//Converts the binary string to a decimal number
+			int d = Integer.parseInt(s, 2);
+			total += d;
+			System.out.println("Calc Dec Int: " + d);
+		}
+		System.out.println("Total: " + total); 
+
 	}
 
-	public int getFitness() 
+	public void printIndividual()
 	{
-		return fitness;
-	}
-
-	public void setFitness(int fitness) 
-	{
-		this.fitness = fitness;
+		for(int i = 0; i < binary.size(); i++)
+		{
+			System.out.print(binary.get(i));
+		}
+		System.out.println();
 	}
 }

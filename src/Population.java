@@ -10,7 +10,6 @@ public class Population {
 		{
 			Individual individual = new Individual();
 			individual.createIndividual();
-			
 		}
 	}
 	
@@ -39,7 +38,7 @@ public class Population {
 	{
 		for(int i = 0; i < population.size(); i++)
 		{
-			System.out.println(population.get(i));
+			population.get(i).printIndividual();
 		}
 	}
 }
