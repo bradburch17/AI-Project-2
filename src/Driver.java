@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Driver {
@@ -29,6 +29,17 @@ public class Driver {
 	private static int variables;
 	private static int[][] coefficients;
 
+
+	public int getVariables()
+	{
+		return variables - 1;
+	}
+	
+	public int[][] getCoefficients()
+	{
+		return coefficients;
+	}
+	
 	/**
 	 * We need to read in the file correctly. That should be our first order of business. 
 	 * We need to ensure that we are creating individuals and then worry about the mutating and crossover whatever 
@@ -63,6 +74,9 @@ public class Driver {
 
 			generateGrid(numbers);
 			printGrid();
+			
+			Population population = new Population(POPULATION_SIZE, true);
+			population.printPopulation();
 			
 			while(generation <= MAX_GENERATION)
 			{
@@ -154,19 +168,6 @@ public class Driver {
 		}
 		
 		return coefficients;
-	}
-	
-	//This is nothing. I don't know what I was doing. 
-	public static void createStrings()
-	{
-		ArrayList<Integer> total = new ArrayList<Integer>();
-		for(int i = 0; i < variables; i++)
-		{
-			for(int j = 0; j < variables; j++)
-			{
-				total.add(coefficients[i][j]);
-			}
-		}
 	}
 	
 	//Prints the grid 

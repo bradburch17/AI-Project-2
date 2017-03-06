@@ -1,16 +1,29 @@
+import java.util.ArrayList;
 
 public class Population {
 
-	private Individual[] population;
+	private ArrayList<Individual> population = new ArrayList<Individual>();
 
-	public Population(int size, boolean initialize)
+	public Population(int size)
 	{
-		population = new Individual[size];
-		if(initialize){
-			for( int i = 0; i < size(); i++){
+		for( int i = 0; i < size; i++)
+		{
 			Individual individual = new Individual();
-			individual.calculateIndividual();
-			addIndividual(i, individual);
+			individual.createIndividual();
+			
+		}
+	}
+	
+	public Population(int size, boolean firstTime)
+	{
+		
+		if(firstTime)
+		{
+			for( int i = 0; i < size; i++)
+			{
+				Individual individual = new Individual();
+				individual.createIndividual();
+				population.add(individual);
 			}
 		}
 	}
@@ -18,28 +31,15 @@ public class Population {
 	// method to check if there is room in youngPopulation and adds to it using crossover
 	private void addIndividual(int i, Individual individual) 
 	{
-		population[i] = individual;
+//		population[i] = individual;
 		
 	}
-
-	public Individual[] getPopulation()
-	{
-		return population;
-	}
-
-	public void setPopulation(Individual[] population) 
-	{
-		this.population = population;
-	}
 	
-	public Individual getIndividual(int i)
+	public void printPopulation()
 	{
-		return population[i];
-	}
-	
-	
-	public int size()
-	{
-		return population.length;
+		for(int i = 0; i < population.size(); i++)
+		{
+			System.out.println(population.get(i));
+		}
 	}
 }

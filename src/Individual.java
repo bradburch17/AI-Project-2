@@ -4,7 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Individual {
 	private String binaryString;
 	private int numVariables;
-	private ArrayList<Integer> variables;
+	private ArrayList<Integer> binary = new ArrayList<Integer>();
 	private int fitness;
 	private double reproductionChance;
 	private int evaluation;
@@ -19,7 +19,7 @@ public class Individual {
 	public Individual(String binaryString, int[][] coefficient, ArrayList<Integer> variables)
 	{
 		this.binaryString = binaryString;
-		this.variables = variables;
+		this.binary = variables;
 	}
 	
 	public int evaluate(int[][] file, String binaryString)
@@ -41,13 +41,24 @@ public class Individual {
 
 	}
 	
-	public void calculateIndividual() 
+	public ArrayList<Integer> createIndividual() 
 	{
-        for (int i = 0; i < binaryStringSize(); i++) 
+		Driver driver = new Driver();
+        for (int i = 0; i < driver.getVariables(); i++) 
         {
-            int random = ThreadLocalRandom.current().nextInt(0,1);
-            variables.set(i, random);
+        	//Creates a binary string. 
+            int random1 = ThreadLocalRandom.current().nextInt(0,1);
+            int random2 = ThreadLocalRandom.current().nextInt(0,1);
+            int random3 = ThreadLocalRandom.current().nextInt(0,1);
+            int random4 = ThreadLocalRandom.current().nextInt(0,1);
+
+            binary.add(random1);
+            binary.add(random2);
+            binary.add(random3);
+            binary.add(random4);
         }
+        
+        return binary;
     }
 	
 	public void printIndividual()
@@ -62,7 +73,7 @@ public class Individual {
 	
 	public ArrayList<Integer> getVariables() 
 	{
-		return variables;
+		return binary;
 	}
 	
 	public void setVariables(ArrayList<Integer> variables) 
