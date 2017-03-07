@@ -24,7 +24,6 @@ public class Population {
 	
 	public Population(int size, boolean firstTime)
 	{
-		
 		if(firstTime)
 		{
 			for( int i = 0; i < size; i++)
@@ -36,7 +35,7 @@ public class Population {
 		}
 	}
 	
-	// method to check if there is room in youngPopulation and adds to it using crossover
+	// method to check if there is room in youngPopulation and adds to it using crossover - NOT USED
 	private void addIndividual(int i, Individual individual) 
 	{
 		population.add(i, individual);
@@ -48,12 +47,17 @@ public class Population {
 		double average, total = 0;
 		for(int i = 0; i < population.size(); i++)
 		{
-			total += population.get(i).getIndividualDecimal();
+			total += population.get(i).getEvaluation(); //The evaluation seems to be increasing, although it should not be
 		}
-		System.out.println("Total: " + total);
+		System.out.println("Total: " + total); //Currently returning huge number
 		average = total / population.size();
 		
 		return average;
+	}
+	
+	public ArrayList<Individual> getPopulation()
+	{
+		return population;
 	}
 	
 	//Prints all the individuals in the population

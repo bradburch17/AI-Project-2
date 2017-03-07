@@ -32,11 +32,22 @@ public class Individual {
 		this.fitness = fitness;
 	}
 	
-	public int evaluate(int[][] file, String binaryString)
+	public int getEvaluation() 
 	{
-		int solution = 0;
-		// takes the file and forms the algorithm; uses WXYZ from binary string in order to solve this algorithm
-		return solution;
+		return evaluation;
+	}
+
+	public void setEvaluation(int evaluation) 
+	{
+		this.evaluation = evaluation;
+	}
+	
+	public double getReproductionChance() {
+		return reproductionChance;
+	}
+
+	public void setReproductionChance(double reproductionChance) {
+		this.reproductionChance = reproductionChance;
 	}
 	
 	public ArrayList<Integer> createIndividual() 
@@ -49,6 +60,10 @@ public class Individual {
             binary.add(r.nextInt(2));
             binary.add(r.nextInt(2));
             binary.add(r.nextInt(2));
+            binary.add(r.nextInt(2));
+            binary.add(r.nextInt(2));
+            binary.add(r.nextInt(2));
+            binary.add(r.nextInt(2));
         }
         convertBinarytoDecimal();
         return binary;
@@ -57,12 +72,6 @@ public class Individual {
 	public ArrayList<Integer> getVariables() 
 	{
 		return binary;
-	}
-	
-	public void setVariables(ArrayList<Integer> variables) 
-	{
-		// This get set to x1, x2, x3 --> calculated from coefficient
-		
 	}
 	
 	//Converts the x values of each individual to a decimal number
@@ -78,7 +87,11 @@ public class Individual {
 			String s = Integer.toString(binary.get(i)) + 
 					   Integer.toString(binary.get(i + 1)) + 
 					   Integer.toString(binary.get(i + 2)) + 
-					   Integer.toString(binary.get(i + 3));
+					   Integer.toString(binary.get(i + 3)) +
+					   Integer.toString(binary.get(i + 4)) + 
+					   Integer.toString(binary.get(i + 5)) +
+					   Integer.toString(binary.get(i + 6)) + 
+					   Integer.toString(binary.get(i + 7));
 			
 			//Converts the binary string to a decimal number
 			int d = Integer.parseInt(s, 2);
@@ -98,13 +111,38 @@ public class Individual {
 			String s = Integer.toString(binary.get(i)) + 
 					   Integer.toString(binary.get(i + 1)) + 
 					   Integer.toString(binary.get(i + 2)) + 
-					   Integer.toString(binary.get(i + 3));
+					   Integer.toString(binary.get(i + 3)) +
+					   Integer.toString(binary.get(i + 4)) + 
+					   Integer.toString(binary.get(i + 5)) +
+					   Integer.toString(binary.get(i + 6)) + 
+					   Integer.toString(binary.get(i + 7));
 			
 			//Converts the binary string to a decimal number
 			int d = Integer.parseInt(s, 2);
 			total += d;
 		}
 		return total;
+	}
+	
+	public String getBinary(int x)
+	{
+		String s = new String();
+		for (int i = 0; i < binary.size(); i++)
+		{
+			if (i == x)
+			{
+				s = Integer.toString(binary.get(i)) + 
+					Integer.toString(binary.get(i + 1)) + 
+					Integer.toString(binary.get(i + 2)) + 
+					Integer.toString(binary.get(i + 3)) +
+					Integer.toString(binary.get(i + 4)) + 
+					Integer.toString(binary.get(i + 5)) +
+					Integer.toString(binary.get(i + 6)) + 
+					Integer.toString(binary.get(i + 7));
+				break;
+			}
+		}
+		return s;
 	}
 
 	public void printIndividual()

@@ -92,6 +92,22 @@ public class Driver {
 		return coefficients;
 	}
 	
+	public static void calculateFitness(double average)
+	{
+		// find the average of the eval then divide eval by average to create reproductionChance
+		// this info is used to calculate fitness
+		for(Individual i : oldPopulation)
+		{
+			i.setReproductionChance( (double) i.getEvaluation() / average);
+			System.out.println(i.getEvaluation());
+		}
+	}
+	
+	public void selection()
+	{
+		
+	}
+	
 	//Main method 
 	public static void main(String[] args)
 	{
@@ -122,21 +138,29 @@ public class Driver {
 			printGrid();
 			
 			Population population = new Population(POPULATION_SIZE, true);
-			population.printPopulation();
-			System.out.println("Average Population: " + population.averagePopulation());
+//			population.printPopulation();
+			oldPopulation = population.getPopulation();
+			
+			Equation equation = new Equation();
+			System.out.println("Solves: ");
+			for (Individual i : oldPopulation)
+			{
+				i.setEvaluation(equation.solveFunction(coefficients, i)); //This seems to be where things start messing up
+			}
+			
+			calculateFitness(population.averagePopulation());
 			
 			while(generation <= MAX_GENERATION)
 			{
-				
-				// evaluate each binary from population
-				// add evaluation to each individual in population
+				// evaluate each binary from population -DONE
+				// add evaluation to each individual in population - DONE
 				// find the average of the eval then divide eval by average to create reproductionChance
 				// this info is used to calculate fitness
 				// set the fitness
-				//print fittest of the generation's eval
+				// print fittest of the generation's eval
 				// select the individuals to reproduce and create new generation
 				// end with mutation
-				//create new population
+				// create new population
 				
 //				System.out.println("The current generation is: " + generation); IMPORTANT
 				
