@@ -9,8 +9,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Driver {
@@ -98,14 +98,33 @@ public class Driver {
 		// this info is used to calculate fitness
 		for(Individual i : oldPopulation)
 		{
+//			System.out.println("Reproductive chance: " + (double) i.getEvaluation() / average);
 			i.setReproductionChance( (double) i.getEvaluation() / average);
-			System.out.println(i.getEvaluation());
 		}
 	}
 	
-	public void selection()
+	//Creates an ArrayList and stores individuals based on their reproduction rates
+	public static void selection()
 	{
+		ArrayList<Individual> selectionList = new ArrayList<Individual>();
+		for(Individual individual : oldPopulation)
+		{
+			BigDecimal temp = new BigDecimal(individual.getReproductionChance());
+			temp = temp.movePointRight(2);
+			int repoChance = temp.intValue();
+			System.out.println("Repo Chance: " + repoChance);
+			for (int i = 0; i <= repoChance; i++)
+			{
+				selectionList.add(individual);
+			}
+		}
 		
+		System.out.println(selectionList.size());
+		
+		for(int k = 0; k < selectionList.size(); k++)
+		{
+			selectionList.get(k).printIndividual();
+		}
 	}
 	
 	//Main method 
@@ -142,13 +161,15 @@ public class Driver {
 			oldPopulation = population.getPopulation();
 			
 			Equation equation = new Equation();
-			System.out.println("Solves: ");
+
 			for (Individual i : oldPopulation)
 			{
 				i.setEvaluation(equation.solveFunction(coefficients, i)); //This seems to be where things start messing up
 			}
 			
 			calculateFitness(population.averagePopulation());
+			
+			selection();
 			
 			while(generation <= MAX_GENERATION)
 			{
