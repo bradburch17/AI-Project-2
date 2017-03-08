@@ -12,7 +12,7 @@ public class Equation {
 	public static int solveFunction(int[][] grid, Individual individual)
 	{
 		ArrayList<Integer> functionList = new ArrayList<Integer>();
-		
+
 		//Go through the grid 
 		for(int i = 0; i < grid.length; i++)
 		{

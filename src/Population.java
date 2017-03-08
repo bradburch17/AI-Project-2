@@ -50,7 +50,7 @@ public class Population {
 			total += population.get(i).getEvaluation(); //The evaluation seems to be increasing, although it should not be
 		}
 		
-		System.out.println("Total: " + total); //Currently returning huge number
+		System.out.println("Evalutation Total: " + total); //Currently returning huge number
 		average = total / population.size();
 		
 		return average;

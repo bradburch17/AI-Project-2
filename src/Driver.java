@@ -11,18 +11,19 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Driver {
 	// number of gen, population size, mutation rate, number of variables in function, need new population, old population, individual that is best, average fitness, bestfitenss
 	public static final int MAX_GENERATION = 100;
 	public static final int POPULATION_SIZE = 200;
-	public static final int MUTATION_RATE = 10;
+	public static final int MUTATION_RATE = 15;
 	
 	private static ArrayList<Individual> newPopulation;
 	private static ArrayList<Individual> oldPopulation;
 	private static ArrayList<Integer> fitness;
-	private static Individual fittest;
+	private static Individual fittest = new Individual();
 	private int averageFit;
 	private int bestFit;
 	private static int generation = 0;
@@ -41,16 +42,18 @@ public class Driver {
 	}
 
 	//Finds the fittest individual from the current population and return best individual 
-	private static Individual findFittest(ArrayList<Individual> currentPopulation) 
+	private static Individual findFittest(double fit) 
 	{
-		int fit = 0;
+		System.out.println("This is the fit score: " + fit);
 		Individual fittestIndividual = new Individual();
-		for(Individual i : currentPopulation)
+		for(Individual i : oldPopulation)
 		{
+			System.out.println(i.getFitness());
 			if(i.getFitness() > fit)
 			{
+				System.out.println("Replacement Fit Score: " + i.getFitness());
 				fit= i.getFitness();
-				fittestIndividual = i;
+				fittest = i;
 			}
 		}
 		return fittestIndividual;
@@ -98,32 +101,88 @@ public class Driver {
 		// this info is used to calculate fitness
 		for(Individual i : oldPopulation)
 		{
-//			System.out.println("Reproductive chance: " + (double) i.getEvaluation() / average);
-			i.setReproductionChance( (double) i.getEvaluation() / average);
+			i.setFitness( (double) i.getEvaluation() / average); //Sets the fitness based on the evaluation divided by the average (total population evaluation divided by pop size)
 		}
 	}
 	
 	//Creates an ArrayList and stores individuals based on their reproduction rates
-	public static void selection()
+	public static ArrayList<Individual> selection()
 	{
+		Random random = new Random();
 		ArrayList<Individual> selectionList = new ArrayList<Individual>();
+		ArrayList<Individual> selectedTwo = new ArrayList<Individual>();
 		for(Individual individual : oldPopulation)
 		{
-			BigDecimal temp = new BigDecimal(individual.getReproductionChance());
+			BigDecimal temp = new BigDecimal(individual.getFitness()); //BigDecimal in order to move the decimal over
 			temp = temp.movePointRight(2);
-			int repoChance = temp.intValue();
-			System.out.println("Repo Chance: " + repoChance);
+			int repoChance = temp.intValue(); //returns int value of the BigDecimal number
 			for (int i = 0; i <= repoChance; i++)
 			{
-				selectionList.add(individual);
+				selectionList.add(individual); //Adds the individual into new arraylist for their fitness score 
 			}
 		}
 		
-		System.out.println(selectionList.size());
+		int select1 = random.nextInt(selectionList.size()); //Randomly selects 2 individuals 
+		int select2 = random.nextInt(selectionList.size());
 		
-		for(int k = 0; k < selectionList.size(); k++)
+		selectedTwo.add(selectionList.get(select1));
+		selectedTwo.add(selectionList.get(select2));
+
+		return selectedTwo;
+	}
+	
+	//Crosses over two selected Individuals 
+	public static ArrayList<Individual> crossover(ArrayList<Individual> selectedTwo)
+	{
+		Individual individual1 = selectedTwo.get(0);
+		Individual individual2 = selectedTwo.get(1);
+		Individual newIndividual1 = new Individual();
+		Individual newIndividual2 = new Individual();
+		ArrayList<Individual> newIndividuals = new ArrayList<Individual>();
+		Random random = new Random();
+		int start = random.nextInt(((variables - 1) * 8) - 5); //Randomly selects a start to start in the middle of binary string
+
+		for(int i = 0; i < ((variables - 1) * 8); i++)
 		{
-			selectionList.get(k).printIndividual();
+			
+			if (i == start)
+			{
+				for(Integer s : individual1.getCrossOverBinary(start)) //Does 4 bytes at a time
+				{
+					newIndividual2.addBinary(i); //Switches binary strings
+				}
+				
+				for(Integer s : individual2.getCrossOverBinary(start))
+				{
+					newIndividual1.addBinary(i);
+				}
+			}
+			else if (i != start)
+			{
+				newIndividual1.addBinary(individual1.getSingleBinary(i)); //Adds the rest of the binary string to the new individual
+				newIndividual2.addBinary(individual2.getSingleBinary(i));
+			}
+		}
+		
+		newIndividuals.add(newIndividual1);
+		newIndividuals.add(newIndividual2);
+		
+		return newIndividuals;
+	}
+	
+	//Mutates the population 
+	public static void mutate()
+	{
+		Random random = new Random();
+		
+		for(Individual i : newPopulation)
+		{
+			int mutation = random.nextInt(MUTATION_RATE); //Selects a mutation rate 
+			if (mutation == MUTATION_RATE)
+			{
+				int spot = random.nextInt(variables * 8); //Randomly selects a spot within the binary string
+				i.mutateSpot(spot); //Mutates the random spot 
+			}
 		}
 	}
 	
@@ -135,8 +194,8 @@ public class Driver {
 		ArrayList<Integer> numbers = new ArrayList<Integer>();
 		
 		System.out.println("This program is used to solve a mathematical equation with a generic algorithm.");
-
 		System.out.print("Please enter a file you would like to solve: ");
+		
 		fileName = reader.nextLine();
 		
 		try
@@ -155,7 +214,8 @@ public class Driver {
 
 			generateGrid(numbers);
 			printGrid();
-			
+			fittest.setFitness(0.0);
+			System.out.println(fittest.getFitness());
 			Population population = new Population(POPULATION_SIZE, true);
 //			population.printPopulation();
 			oldPopulation = population.getPopulation();
@@ -164,43 +224,37 @@ public class Driver {
 
 			for (Individual i : oldPopulation)
 			{
-				i.setEvaluation(equation.solveFunction(coefficients, i)); //This seems to be where things start messing up
+				i.setEvaluation(equation.solveFunction(coefficients, i)); 
 			}
-			
-			calculateFitness(population.averagePopulation());
-			
-			selection();
 			
 			while(generation <= MAX_GENERATION)
-			{
-				// evaluate each binary from population -DONE
-				// add evaluation to each individual in population - DONE
-				// find the average of the eval then divide eval by average to create reproductionChance
-				// this info is used to calculate fitness
-				// set the fitness
-				// print fittest of the generation's eval
-				// select the individuals to reproduce and create new generation
-				// end with mutation
-				// create new population
+			{				
+				System.out.println("The current generation is: " + generation); 
+			
+				calculateFitness(population.averagePopulation());
 				
-//				System.out.println("The current generation is: " + generation); IMPORTANT
+				findFittest(fittest.getFitness());
+				System.out.print("Fittest: ");
+				fittest.printIndividual();
 				
+				System.out.println("Fittest Evaluation: " + fittest.getEvaluation());
 				
-//				for(Individual i : oldPopulation)
-//				{
-//					i.setFitness(calculateFitness(i));
-//					
-//				}
-//				
-//				fittest = findFittest(oldPopulation);
-//				newPopulation = new ArrayList<Individual>(generateNewPopulation(oldPopulation));
-//				mutatePopulation(newPopulation);
+				newPopulation = new ArrayList<Individual>(oldPopulation);
+				while (newPopulation.size() <= oldPopulation.size())
+				{
+					ArrayList<Individual> crossed = crossover(selection());
+					for(Individual i : crossed)
+					{
+						newPopulation.add(i);
+					}
+				}
+				mutate();
+				
+				//Pointer error?
+				oldPopulation = newPopulation;
+				
 				generation ++;
-				
 			}
-			// set generation to 0 -- DONE 
-			// loop through generations to print generation, calc fitness, best individual, fill population, mutate population
-			// increase generation size -- DONE
 		}
 		catch(FileNotFoundException e)
 		{

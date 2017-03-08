@@ -8,13 +8,14 @@
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Individual {
 	private int numVariables;
 	private ArrayList<Integer> binary = new ArrayList<Integer>();
-	private int fitness;
+	private double fitness;
 	private double reproductionChance;
 	private int evaluation;
 	
@@ -22,12 +23,12 @@ public class Individual {
 
 	public Individual(int number){ }
 	
-	public int getFitness() 
+	public double getFitness() 
 	{
 		return fitness;
 	}
 
-	public void setFitness(int fitness) 
+	public void setFitness(double fitness) 
 	{
 		this.fitness = fitness;
 	}
@@ -48,6 +49,16 @@ public class Individual {
 
 	public void setReproductionChance(double reproductionChance) {
 		this.reproductionChance = reproductionChance;
+	}
+	
+	public void addBinary(int i)
+	{
+		binary.add(i);
+	}
+	
+	public int getSingleBinary(int i)
+	{
+		return binary.get(i);
 	}
 	
 	public ArrayList<Integer> createIndividual() 
@@ -143,6 +154,41 @@ public class Individual {
 			}
 		}
 		return s;
+	}
+	
+	public ArrayList<Integer> getCrossOverBinary(int x)
+	{
+		ArrayList<Integer> returned = new ArrayList<Integer>();
+		for (int i = 0; i < binary.size(); i++)
+		{
+			if (i == x)
+			{
+				returned.add(binary.get(i));
+				returned.add(binary.get(i + 1));
+				returned.add(binary.get(i + 2));
+				returned.add(binary.get(i + 3));
+				break;
+			}
+		}
+		return returned;
+	}
+	
+	public void mutateSpot(int spot)
+	{
+		for(int i = 0; i < binary.size(); i++)
+		{
+			if (i == spot)
+			{
+				if (binary.get(spot) == 0)
+				{
+					binary.add(spot, 1);
+				}
+				else if (binary.get(spot) == 1)
+				{
+					binary.add(spot, 0);
+				}
+			}
+		}
 	}
 
 	public void printIndividual()
