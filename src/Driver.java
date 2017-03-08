@@ -18,11 +18,10 @@ public class Driver {
 	// number of gen, population size, mutation rate, number of variables in function, need new population, old population, individual that is best, average fitness, bestfitenss
 	public static final int MAX_GENERATION = 100;
 	public static final int POPULATION_SIZE = 200;
-	public static final int MUTATION_RATE = 15;
+	public static final int MUTATION_RATE = 10;
 	
 	private static ArrayList<Individual> newPopulation;
 	private static ArrayList<Individual> oldPopulation;
-	private static ArrayList<Integer> fitness;
 	private static Individual fittest = new Individual();
 	private static int generation = 0;
 	private static int variables;
@@ -37,18 +36,16 @@ public class Driver {
 	//Finds the fittest individual from the current population and return best individual 
 	private static Individual findFittest(double fit) 
 	{
-//		System.out.println("This is the fit score: " + fit);
 		Individual fittestIndividual = new Individual();
 		for(Individual i : oldPopulation)
 		{
-//			System.out.println(i.getFitness()); 
 			if(i.getFitness() > fit)
 			{
-//				System.out.println("Replacement Fit Score: " + i.getFitness());
 				fit= i.getFitness();
 				fittest = i;
 			}
 		}
+		
 		return fittestIndividual;
 	}
 	
@@ -71,8 +68,6 @@ public class Driver {
 	//Sets the fitness based on the average of evaluation and population
 	public static void calculateFitness(double average)
 	{
-		// find the average of the eval then divide eval by average to create reproductionChance
-		// this info is used to calculate fitness
 		for(Individual i : oldPopulation)
 		{
 			i.setFitness( (double) i.getEvaluation() / average); //Sets the fitness based on the evaluation divided by the average (total population evaluation divided by pop size)
@@ -96,7 +91,8 @@ public class Driver {
 			}
 		}
 		
-		int select1 = random.nextInt(selectionList.size()); //Randomly selects 2 individuals 
+		//Randomly selects 2 individuals 
+		int select1 = random.nextInt(selectionList.size()); 
 		int select2 = random.nextInt(selectionList.size());
 		
 		selectedTwo.add(selectionList.get(select1));
@@ -114,7 +110,7 @@ public class Driver {
 		Individual newIndividual2 = new Individual();
 		ArrayList<Individual> newIndividuals = new ArrayList<Individual>();
 		Random random = new Random();
-		int start = random.nextInt(((variables - 1) * 8) - 5); //Randomly selects a start to start in the middle of binary string
+		int start = random.nextInt(((variables - 1) * 8) - 5); //Randomly selects a point to start in the middle of binary string
 
 		for(int i = 0; i < ((variables - 1) * 8); i++)
 		{
@@ -130,7 +126,7 @@ public class Driver {
 				{
 					newIndividual1.addBinary(s);
 				}
-				i += 3;
+				i += 3; //Keep the binary string the same size
 			}
 			else if (i != start)
 			{
@@ -138,16 +134,6 @@ public class Driver {
 				newIndividual2.addBinary(individual2.getSingleBinary(i));
 			}
 		}
-		
-//		System.out.print("Original Individual1: ");
-//		individual1.printIndividual();
-//		System.out.print("New Individual1:      ");
-//		newIndividual1.printIndividual();
-//		
-//		System.out.print("Original Individual2: ");
-//		individual2.printIndividual();
-//		System.out.print("New Individual2:      ");
-//		newIndividual2.printIndividual();
 		
 		newIndividuals.add(newIndividual1);
 		newIndividuals.add(newIndividual2);
@@ -201,12 +187,11 @@ public class Driver {
 			printGrid();
 			fittest.setFitness(0.0);
 			Population population = new Population(POPULATION_SIZE, true);
-//			population.printPopulation();
 			oldPopulation = population.getPopulation();
 			
 			Equation equation = new Equation();
 			
-			while(generation <= MAX_GENERATION)
+			while(generation < MAX_GENERATION)
 			{				
 				System.out.println("The current generation is: " + generation); 
 				for (Individual i : oldPopulation)
@@ -222,8 +207,8 @@ public class Driver {
 				System.out.println("Maximum outcome: " + fittest.getEvaluation());
 				
 				newPopulation = new ArrayList<Individual>();
-//				newPopulation.add(fittest);
-				while (newPopulation.size() < oldPopulation.size()) //Keeps the population at the population size, instead of increasing 
+				newPopulation.add(fittest); //Adds fittest individual to the population for a better chance of max outcome
+				while (newPopulation.size() < oldPopulation.size()) 
 				{
 					ArrayList<Individual> selection = selection();
 					ArrayList<Individual> crossed = crossover(selection);
@@ -234,8 +219,7 @@ public class Driver {
 				}
 
 				mutate();
-//				comparePopulation();
-
+				
 				oldPopulation = newPopulation;
 				
 				generation ++;
@@ -251,19 +235,17 @@ public class Driver {
 		}
 	}
 	
+	//Used for testing. Makes sure the population is different each generation 
 	public static void comparePopulation()
 	{
 		int count = 0;
 		for(int i = 0; i < oldPopulation.size(); i++)
 		{
-			if(oldPopulation.get(i) == newPopulation.get(i+1))
+			if(oldPopulation.get(i) == newPopulation.get(i))
 			{
 				count++;
 			}
-			else
-			{
-				
-			}
+			else { }
 		}
 		System.out.println("Count: " + count);
 	}

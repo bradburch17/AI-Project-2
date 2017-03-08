@@ -13,6 +13,7 @@ public class Population {
 
 	private ArrayList<Individual> population = new ArrayList<Individual>();
 	
+	//Generates a new population
 	public Population(int size, boolean firstTime)
 	{
 		if(firstTime)
@@ -26,10 +27,9 @@ public class Population {
 		}
 	}
 	
-	// method to check if there is room in youngPopulation and adds to it using crossover - NOT USED
-	private void addIndividual(int i, Individual individual) 
+	public ArrayList<Individual> getPopulation()
 	{
-		population.add(i, individual);
+		return population;
 	}
 	
 	//Takes the current population and returns the average decimal to be used for fitness calculation 
@@ -45,11 +45,6 @@ public class Population {
 		average = total / population.size();
 		
 		return average;
-	}
-	
-	public ArrayList<Individual> getPopulation()
-	{
-		return population;
 	}
 	
 	//Prints all the individuals in the population

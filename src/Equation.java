@@ -1,8 +1,13 @@
+/**
+ * Equation class handles forming the equation from the text file. 
+ * 
+ * @author Brad Burch & Katherine Martin 
+ * Created 3-3-2017
+ */
+
 import java.util.ArrayList;
 
 public class Equation {
-
-	private Driver driver = new Driver();
 	
 	//Solves the function one individual at a time with the parameter of the grid and one individual
 	public static int solveFunction(int[][] grid, Individual individual)
@@ -56,7 +61,7 @@ public class Equation {
 				//Every other case
 				else 
 				{		
-					int var = 0; //Needed to initialize to something that would be obvious if wrong
+					int var = 0; 
 					int var1 = 0;
 					//Used to check the position in the binary string to the j position 
 					for (int x = 0; x <= (j * 8); x+=8)

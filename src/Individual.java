@@ -13,15 +13,12 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Individual {
-	private int numVariables;
 	private ArrayList<Integer> binary = new ArrayList<Integer>();
 	private double fitness;
 	private double reproductionChance;
 	private int evaluation;
 	
 	public Individual(){ }
-
-	public Individual(int number){ }
 	
 	public double getFitness() 
 	{
@@ -51,16 +48,19 @@ public class Individual {
 		this.reproductionChance = reproductionChance;
 	}
 	
+	//Adds an integer to the binary string
 	public void addBinary(int i)
 	{
 		binary.add(i);
 	}
 	
+	//Returns the number at a certain location in the binary string
 	public int getSingleBinary(int i)
 	{
 		return binary.get(i);
 	}
 	
+	//Creates an individual based on the number of variables and then adds a random number between 0 and 1
 	public ArrayList<Integer> createIndividual() 
 	{
 		Driver driver = new Driver();
@@ -76,7 +76,7 @@ public class Individual {
             binary.add(r.nextInt(2));
             binary.add(r.nextInt(2));
         }
-        convertBinarytoDecimal();
+        
         return binary;
     }
 	
@@ -85,35 +85,9 @@ public class Individual {
 		return binary;
 	}
 	
-	//Converts the x values of each individual to a decimal number
-	public void convertBinarytoDecimal()
-	{
-		// looks at parts of the binaryString and adds WXYZ values in decimal to an list in order to use them in evaluate
-		ArrayList<Integer> thenewone = new ArrayList<Integer>();
-		Driver driver = new Driver();
-		int total = 0; //The individual's added decimal values
-		for(int i = 0; i < driver.getVariables(); i++)
-		{
-			//String for each x value of each individual 
-			String s = Integer.toString(binary.get(i)) + 
-					   Integer.toString(binary.get(i + 1)) + 
-					   Integer.toString(binary.get(i + 2)) + 
-					   Integer.toString(binary.get(i + 3)) +
-					   Integer.toString(binary.get(i + 4)) + 
-					   Integer.toString(binary.get(i + 5)) +
-					   Integer.toString(binary.get(i + 6)) + 
-					   Integer.toString(binary.get(i + 7));
-			
-			//Converts the binary string to a decimal number
-			int d = Integer.parseInt(s, 2);
-			total += d;
-		}
-
-	}
-	
+	//Returns the decimal value of an individual
 	public int getIndividualDecimal()
 	{
-		ArrayList<Integer> thenewone = new ArrayList<Integer>();
 		Driver driver = new Driver();
 		int total = 0; //The individual's added decimal values
 		for(int i = 0; i < driver.getVariables(); i++)
@@ -132,9 +106,11 @@ public class Individual {
 			int d = Integer.parseInt(s, 2);
 			total += d;
 		}
+		
 		return total;
 	}
 	
+	//Returns the binary string of an individual given a starting point
 	public String getBinary(int x)
 	{
 		String s = new String();
@@ -153,9 +129,11 @@ public class Individual {
 				break;
 			}
 		}
+		
 		return s;
 	}
 	
+	//Used for cross-over and returns an ArrayList<Integer> of 4 bytes that will be crossed over to a new individual 
 	public ArrayList<Integer> getCrossOverBinary(int x)
 	{
 		ArrayList<Integer> returned = new ArrayList<Integer>();
@@ -174,6 +152,7 @@ public class Individual {
 		return returned;
 	}
 	
+	//Mutates one spot in the Individual binary string based on a random that is being passed in
 	public void mutateSpot(int spot)
 	{
 		for(int i = 0; i < binary.size(); i++)
@@ -192,6 +171,7 @@ public class Individual {
 		}
 	}
 
+	//Prints an individual
 	public void printIndividual()
 	{
 		for(int i = 0; i < binary.size(); i++)
