@@ -3,20 +3,18 @@ import java.util.ArrayList;
 public class Equation {
 
 	private Driver driver = new Driver();
-	private int variable = driver.getVariables();
-	private int[][] xValues = driver.getCoefficients();
 	
-	
-	//TODO: NEED TO AVOID REPEATS
 	//Solves the function one individual at a time with the parameter of the grid and one individual
 	public static int solveFunction(int[][] grid, Individual individual)
 	{
 		ArrayList<Integer> functionList = new ArrayList<Integer>();
+		int count = 0;
 
 		//Go through the grid 
 		for(int i = 0; i < grid.length; i++)
 		{
-			for(int j = 0; j < grid.length; j++)
+			
+			for(int j = count; j < grid.length; j++)
 			{
 				//Checks if the grid is in 0, 0 and then adds it to the arraylist
 				if (i == 0 && j == 0)
@@ -27,13 +25,14 @@ public class Equation {
 				else if (i == 0)
 				{	
 					//Used to check the position in the binary string to the j position 
-					for (int x = 0; x <= (j * 8); x+= 8)
+					for (int x = 0; x <= (j * 8); x += 8)
 					{
 						//Finds the starting point of Xj
 						if (x == (((j-1) * 8))) //This should be checking if it is in the correct starting spot in the binary string
 						{
 							String s = individual.getBinary(x);
-							int d = Integer.parseInt(s, 2);
+							System.out.println("This is s: " + s);
+							int d = Integer.parseInt(s, 2); 
 							functionList.add(grid[i][j] * d);
 							break;
 						}
@@ -46,7 +45,7 @@ public class Equation {
 					for (int x = 0; x <= (i * 8); x+=8)
 					{
 						//Finds the starting point of Xi
-						if (x == (((i-1) * 8)))
+						if (x == (((i - 1) * 8)))
 						{
 							String s = individual.getBinary(x);
 							int d = Integer.parseInt(s, 2);
@@ -58,13 +57,13 @@ public class Equation {
 				//Every other case
 				else 
 				{		
-					int var = -10000000; //Needed to initialize to something that would be obvious if wrong
-					int var1 = -1000000;
+					int var = 0; //Needed to initialize to something that would be obvious if wrong
+					int var1 = 0;
 					//Used to check the position in the binary string to the j position 
-					for (int x = 0; x <= (j*8); x+=8)
+					for (int x = 0; x <= (j * 8); x+=8)
 					{
 						
-						if (x == (((j-1) * 8)))
+						if (x == (((j - 1) * 8)))
 						{
 							String s = individual.getBinary(x);
 							var = Integer.parseInt(s, 2);
@@ -73,9 +72,9 @@ public class Equation {
 					}
 					
 					//Used to check the position in the binary string to the i position
-					for (int x = 0; x <= (i*8); x+=8)
+					for (int x = 0; x <= (i * 8); x += 8)
 					{
-						if (x == (((i-1) * 8)))
+						if (x == (((i - 1) * 8)))
 						{
 							String s = individual.getBinary(x);
 							var1 = Integer.parseInt(s, 2);
@@ -85,6 +84,7 @@ public class Equation {
 					functionList.add(grid[i][j] * var * var1);
 				}
 			}
+			count++;
 		}
 		return addArrayList(functionList);
 	}

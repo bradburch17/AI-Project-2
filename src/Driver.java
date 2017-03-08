@@ -24,8 +24,8 @@ public class Driver {
 	private static ArrayList<Individual> oldPopulation;
 	private static ArrayList<Integer> fitness;
 	private static Individual fittest = new Individual();
-	private int averageFit;
-	private int bestFit;
+	private int averageFit; //Don't use
+	private int bestFit; //Don't use
 	private static int generation = 0;
 	private static int variables;
 	private static int[][] coefficients;
@@ -35,48 +35,23 @@ public class Driver {
 	{
 		return variables - 1;
 	}
-	
-	public int[][] getCoefficients()
-	{
-		return coefficients;
-	}
 
 	//Finds the fittest individual from the current population and return best individual 
 	private static Individual findFittest(double fit) 
 	{
-		System.out.println("This is the fit score: " + fit);
+//		System.out.println("This is the fit score: " + fit);
 		Individual fittestIndividual = new Individual();
 		for(Individual i : oldPopulation)
 		{
-			System.out.println(i.getFitness());
+//			System.out.println(i.getFitness()); 
 			if(i.getFitness() > fit)
 			{
-				System.out.println("Replacement Fit Score: " + i.getFitness());
+//				System.out.println("Replacement Fit Score: " + i.getFitness());
 				fit= i.getFitness();
 				fittest = i;
 			}
 		}
 		return fittestIndividual;
-	}
-
-	//Generates a new population 
-	private static ArrayList<Individual> generateNewPopulation(ArrayList<Individual> oldPopulation)
-	{
-		ArrayList<Individual> newPopulation = new ArrayList<Individual>();
-		
-		// Look at fitness divide by average 
-		// That number is percentage chance of being picked
-		//
-		return newPopulation;
-		
-	}
-	
-	//Calculates the fitness according to SOME ALGORITHM*******CHANGE
-	private static int calculateFitness(Individual individual) 
-	{
-		// TODO Auto-generated method stub
-		return 1;
-		
 	}
 	
 	//Generates the grid used for the algorithm 
@@ -95,6 +70,7 @@ public class Driver {
 		return coefficients;
 	}
 	
+	//Sets the fitness based on the average of evaluation and population
 	public static void calculateFitness(double average)
 	{
 		// find the average of the eval then divide eval by average to create reproductionChance
@@ -215,41 +191,39 @@ public class Driver {
 			generateGrid(numbers);
 			printGrid();
 			fittest.setFitness(0.0);
-			System.out.println(fittest.getFitness());
 			Population population = new Population(POPULATION_SIZE, true);
 //			population.printPopulation();
 			oldPopulation = population.getPopulation();
 			
 			Equation equation = new Equation();
-
-			for (Individual i : oldPopulation)
-			{
-				i.setEvaluation(equation.solveFunction(coefficients, i)); 
-			}
 			
 			while(generation <= MAX_GENERATION)
 			{				
 				System.out.println("The current generation is: " + generation); 
-			
+				for (Individual i : oldPopulation)
+				{
+					i.setEvaluation(equation.solveFunction(coefficients, i)); 
+				}
 				calculateFitness(population.averagePopulation());
 				
 				findFittest(fittest.getFitness());
 				System.out.print("Fittest: ");
 				fittest.printIndividual();
 				
-				System.out.println("Fittest Evaluation: " + fittest.getEvaluation());
+//				System.out.println("Fittest Evaluation: " + fittest.getEvaluation());
 				
-				newPopulation = new ArrayList<Individual>(oldPopulation);
-				while (newPopulation.size() <= oldPopulation.size())
+				newPopulation = new ArrayList<Individual>();
+				while (newPopulation.size() <= oldPopulation.size() - 2) //Keeps the population at the population size, instead of increasing 
 				{
 					ArrayList<Individual> crossed = crossover(selection());
 					for(Individual i : crossed)
 					{
-						newPopulation.add(i);
+						newPopulation.add(i); 
 					}
 				}
 				mutate();
-				
+				comparePopulation();
+			
 				//Pointer error?
 				oldPopulation = newPopulation;
 				
@@ -264,6 +238,23 @@ public class Driver {
 		{
 			System.out.println("Could not read from " + fileName + ".");
 		}
+	}
+	
+	public static void comparePopulation()
+	{
+		int count = 0;
+		for(int i = 0; i < oldPopulation.size(); i++)
+		{
+			if(oldPopulation.get(i) == newPopulation.get(i))
+			{
+				count++;
+			}
+			else
+			{
+				
+			}
+		}
+		System.out.println("Count: " + count);
 	}
 	
 	//Prints the grid 

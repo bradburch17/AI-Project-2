@@ -44,13 +44,15 @@ public class Population {
 	//Takes the current population and returns the average decimal to be used for fitness calculation 
 	public double averagePopulation()
 	{
-		double average, total = 0;
+		double average;
+		long total = 0;
 		for(int i = 0; i < population.size(); i++)
 		{
-			total += population.get(i).getEvaluation(); //The evaluation seems to be increasing, although it should not be
+//			System.out.println(population.get(i).getEvaluation()); EACH GENERATION RETURNS SAME EVALUATION
+			total += population.get(i).getEvaluation(); 
 		}
 		
-		System.out.println("Evalutation Total: " + total); //Currently returning huge number
+		System.out.println("Evalutation Total: " + total); //Currently returning huge number. Why is it a huge number? 
 		average = total / population.size();
 		
 		return average;
