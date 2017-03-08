@@ -24,8 +24,6 @@ public class Driver {
 	private static ArrayList<Individual> oldPopulation;
 	private static ArrayList<Integer> fitness;
 	private static Individual fittest = new Individual();
-	private int averageFit; //Don't use
-	private int bestFit; //Don't use
 	private static int generation = 0;
 	private static int variables;
 	private static int[][] coefficients;
@@ -180,8 +178,8 @@ public class Driver {
 		Scanner reader = new Scanner(System.in);
 		ArrayList<Integer> numbers = new ArrayList<Integer>();
 		
-		System.out.println("This program is used to solve a mathematical equation with a generic algorithm.");
-		System.out.print("Please enter a file you would like to solve: ");
+		System.out.println("This program is used to find maximize a mathematical equation with a generic algorithm.");
+		System.out.print("Please enter a file you would like to create the alogrithm: ");
 		
 		fileName = reader.nextLine();
 		
@@ -221,7 +219,7 @@ public class Driver {
 				System.out.print("Fittest: ");
 				fittest.printIndividual();
 				
-				System.out.println("Fittest Evaluation: " + fittest.getEvaluation());
+				System.out.println("Maximum outcome: " + fittest.getEvaluation());
 				
 				newPopulation = new ArrayList<Individual>();
 //				newPopulation.add(fittest);
