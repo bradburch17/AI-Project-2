@@ -41,7 +41,7 @@ public class Driver {
 		{
 			if(i.getFitness() > fit)
 			{
-				fit= i.getFitness();
+				fit = i.getFitness();
 				fittest = i;
 			}
 		}
@@ -70,7 +70,8 @@ public class Driver {
 	{
 		for(Individual i : oldPopulation)
 		{
-			i.setFitness( (double) i.getEvaluation() / average); //Sets the fitness based on the evaluation divided by the average (total population evaluation divided by pop size)
+			//Sets the fitness based on the evaluation divided by the absolute value average (total population evaluation divided by pop size)
+			i.setFitness( (double) i.getEvaluation() / Math.abs(average)); 
 		}
 	}
 	
@@ -175,7 +176,7 @@ public class Driver {
 			Scanner scanner = new Scanner(file);
 
 			variables = scanner.nextInt() + 1;
-			System.out.println("variables: " + (variables - 1));
+			System.out.println("Variables: " + (variables - 1));
 			while (scanner.hasNext())
 			{
 				numbers.add(scanner.nextInt());
@@ -204,7 +205,7 @@ public class Driver {
 				System.out.print("Fittest: ");
 				fittest.printIndividual();
 				
-				System.out.println("Maximum outcome: " + fittest.getEvaluation());
+				System.out.println("Fittest Evaluation: " + fittest.getEvaluation());
 				
 				newPopulation = new ArrayList<Individual>();
 				newPopulation.add(fittest); //Adds fittest individual to the population for a better chance of max outcome
