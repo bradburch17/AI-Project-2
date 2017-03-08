@@ -31,7 +31,6 @@ public class Equation {
 						if (x == (((j-1) * 8))) //This should be checking if it is in the correct starting spot in the binary string
 						{
 							String s = individual.getBinary(x);
-							System.out.println("This is s: " + s);
 							int d = Integer.parseInt(s, 2); 
 							functionList.add(grid[i][j] * d);
 							break;

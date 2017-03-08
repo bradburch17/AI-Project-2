@@ -12,15 +12,6 @@ import java.util.ArrayList;
 public class Population {
 
 	private ArrayList<Individual> population = new ArrayList<Individual>();
-
-	public Population(int size)
-	{
-		for( int i = 0; i < size; i++)
-		{
-			Individual individual = new Individual();
-			individual.createIndividual();
-		}
-	}
 	
 	public Population(int size, boolean firstTime)
 	{
@@ -48,11 +39,9 @@ public class Population {
 		long total = 0;
 		for(int i = 0; i < population.size(); i++)
 		{
-//			System.out.println(population.get(i).getEvaluation()); EACH GENERATION RETURNS SAME EVALUATION
 			total += population.get(i).getEvaluation(); 
 		}
 		
-		System.out.println("Evalutation Total: " + total); //Currently returning huge number. Why is it a huge number? 
 		average = total / population.size();
 		
 		return average;

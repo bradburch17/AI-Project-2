@@ -103,7 +103,7 @@ public class Driver {
 		
 		selectedTwo.add(selectionList.get(select1));
 		selectedTwo.add(selectionList.get(select2));
-
+		
 		return selectedTwo;
 	}
 	
@@ -125,13 +125,14 @@ public class Driver {
 			{
 				for(Integer s : individual1.getCrossOverBinary(start)) //Does 4 bytes at a time
 				{
-					newIndividual2.addBinary(i); //Switches binary strings
+					newIndividual2.addBinary(s); //Switches binary strings
 				}
 				
 				for(Integer s : individual2.getCrossOverBinary(start))
 				{
-					newIndividual1.addBinary(i);
+					newIndividual1.addBinary(s);
 				}
+				i += 3;
 			}
 			else if (i != start)
 			{
@@ -139,6 +140,16 @@ public class Driver {
 				newIndividual2.addBinary(individual2.getSingleBinary(i));
 			}
 		}
+		
+//		System.out.print("Original Individual1: ");
+//		individual1.printIndividual();
+//		System.out.print("New Individual1:      ");
+//		newIndividual1.printIndividual();
+//		
+//		System.out.print("Original Individual2: ");
+//		individual2.printIndividual();
+//		System.out.print("New Individual2:      ");
+//		newIndividual2.printIndividual();
 		
 		newIndividuals.add(newIndividual1);
 		newIndividuals.add(newIndividual2);
@@ -210,21 +221,23 @@ public class Driver {
 				System.out.print("Fittest: ");
 				fittest.printIndividual();
 				
-//				System.out.println("Fittest Evaluation: " + fittest.getEvaluation());
+				System.out.println("Fittest Evaluation: " + fittest.getEvaluation());
 				
 				newPopulation = new ArrayList<Individual>();
-				while (newPopulation.size() <= oldPopulation.size() - 2) //Keeps the population at the population size, instead of increasing 
+//				newPopulation.add(fittest);
+				while (newPopulation.size() < oldPopulation.size()) //Keeps the population at the population size, instead of increasing 
 				{
-					ArrayList<Individual> crossed = crossover(selection());
+					ArrayList<Individual> selection = selection();
+					ArrayList<Individual> crossed = crossover(selection);
 					for(Individual i : crossed)
 					{
 						newPopulation.add(i); 
 					}
 				}
+
 				mutate();
-				comparePopulation();
-			
-				//Pointer error?
+//				comparePopulation();
+
 				oldPopulation = newPopulation;
 				
 				generation ++;
@@ -245,7 +258,7 @@ public class Driver {
 		int count = 0;
 		for(int i = 0; i < oldPopulation.size(); i++)
 		{
-			if(oldPopulation.get(i) == newPopulation.get(i))
+			if(oldPopulation.get(i) == newPopulation.get(i+1))
 			{
 				count++;
 			}
